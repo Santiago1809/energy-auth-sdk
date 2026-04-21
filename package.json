@@ -1,0 +1,45 @@
+{
+  "name": "@energy-community/auth-service-sdk",
+  "version": "0.1.0",
+  "description": "Typed JS/TS SDK for energy-comunity-auth auth_service",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Santiago1809/energy-comunity-auth.git"
+  },
+  "private": false,
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "keywords": [
+    "auth",
+    "sdk",
+    "typescript",
+    "jwt",
+    "nestjs"
+  ],
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "tsup": "^8.2.4",
+    "typescript": "^5.7.3",
+    "vitest": "^2.1.8"
+  }
+}
