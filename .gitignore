@@ -1,0 +1,6 @@
+node_modules/
+dist/
+sdk/.npmrc
+.npmrc
+.env
+.DS_Store
