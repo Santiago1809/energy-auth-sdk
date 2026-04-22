@@ -1,6 +1,6 @@
 {
   "name": "energy-community-auth-sdk",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Typed JS/TS SDK for energy-community-auth auth_service",
   "type": "module",
   "main": "dist/index.cjs",
@@ -18,7 +18,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/Santiago1809/energy-comunity-auth.git"
+    "url": "https://github.com/Santiago1809/energy-auth-sdk.git"
   },
   "private": false,
   "scripts": {
