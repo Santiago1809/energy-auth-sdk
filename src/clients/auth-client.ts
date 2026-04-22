@@ -1,5 +1,6 @@
 import { HttpClient } from '../http-client';
 import {
+  LoginResponse,
   LoginRequest,
   RegisterResponse,
   RefreshRequest,
@@ -19,7 +20,7 @@ export class AuthClient {
     return this.httpClient.request('POST', '/auth/register', { body: payload });
   }
 
-  login(payload: LoginRequest): Promise<TokensResponse> {
+  login(payload: LoginRequest): Promise<LoginResponse> {
     return this.httpClient.request('POST', '/auth/login', { body: payload });
   }
 

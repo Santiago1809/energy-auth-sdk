@@ -38,10 +38,12 @@ console.log(registration.user.id, registration.user.email);
 ### Login
 
 ```ts
-const tokens = await sdk.auth.login({
+const loginResult = await sdk.auth.login({
   email: 'ada@example.com',
   password: 'StrongPass123!',
 });
+
+console.log(loginResult.user.id, loginResult.user.email);
 ```
 
 ### Refresh token
@@ -92,6 +94,7 @@ const user = await sdk.auth.getUserById('8db5f3bb-4f87-4a31-89fc-351b8eb6360c');
 - `ValidateTokenRequest`
 - `UserResponse`
 - `RegisterResponse`
+- `LoginResponse`
 - `TokensResponse`
 - `ValidateTokenResponse`
 - `SessionResponse`

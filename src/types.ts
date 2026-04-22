@@ -34,6 +34,10 @@ export interface RegisterResponse extends TokensResponse {
   user: UserResponse;
 }
 
+export interface LoginResponse extends TokensResponse {
+  user: UserResponse;
+}
+
 export interface SuccessResponse {
   success: true;
 }
