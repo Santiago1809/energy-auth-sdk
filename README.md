@@ -20,7 +20,7 @@ const sdk = new AuthServiceSdk({
 
 ## API disponible
 
-Todas las funciones est�n en `sdk.auth`.
+Todas las funciones están en `sdk.auth`.
 
 ### Registrar usuario
 
@@ -100,7 +100,7 @@ const user = await sdk.auth.getUserById('8db5f3bb-4f87-4a31-89fc-351b8eb6360c');
 - `SessionResponse`
 - `SuccessResponse`
 
-Tambi�n puedes importarlos directamente:
+También puedes importarlos directamente:
 
 ```ts
 import type { TokensResponse, SessionResponse } from 'energy-community-auth-sdk';
