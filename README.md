@@ -5,7 +5,7 @@ SDK de TypeScript/JavaScript para consumir el servicio de autenticaci�n de Ene
 ## Instalacion
 
 ```bash
-npm install npm i energy-community-auth-sdk
+npm i energy-community-auth-sdk
 ```
 ## Uso rapido
 
