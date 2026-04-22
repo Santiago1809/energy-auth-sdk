@@ -1,6 +1,6 @@
 # energy-community-auth-sdk
 
-SDK de TypeScript/JavaScript para consumir el servicio de autenticaci�n de Energy Community.
+SDK de TypeScript/JavaScript para consumir el servicio de autenticación de Energy Community.
 
 ## Instalacion
 
@@ -10,7 +10,7 @@ npm i energy-community-auth-sdk
 ## Uso rapido
 
 ```ts
-import { AuthServiceSdk } from 'npm i energy-community-auth-sdk';
+import { AuthServiceSdk } from 'energy-community-auth-sdk';
 
 const sdk = new AuthServiceSdk({
   appId: 'tu-app-id',
