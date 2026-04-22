@@ -23,6 +23,17 @@ export interface TokensResponse {
   refreshToken: string;
 }
 
+export interface UserResponse {
+  id: string;
+  firstName: string | null;
+  lastName: string | null;
+  email: string;
+}
+
+export interface RegisterResponse extends TokensResponse {
+  user: UserResponse;
+}
+
 export interface SuccessResponse {
   success: true;
 }

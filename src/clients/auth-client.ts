@@ -1,11 +1,13 @@
 import { HttpClient } from '../http-client';
 import {
   LoginRequest,
+  RegisterResponse,
   RefreshRequest,
   RegisterRequest,
   SessionResponse,
   SuccessResponse,
   TokensResponse,
+  UserResponse,
   ValidateTokenRequest,
   ValidateTokenResponse,
 } from '../types';
@@ -13,7 +15,7 @@ import {
 export class AuthClient {
   constructor(private readonly httpClient: HttpClient) {}
 
-  register(payload: RegisterRequest): Promise<TokensResponse> {
+  register(payload: RegisterRequest): Promise<RegisterResponse> {
     return this.httpClient.request('POST', '/auth/register', { body: payload });
   }
 
@@ -41,5 +43,9 @@ export class AuthClient {
     return this.httpClient.request('DELETE', `/auth/sessions/${sessionId}`, {
       token: accessToken,
     });
+  }
+
+  getUserById(userId: string): Promise<UserResponse> {
+    return this.httpClient.request('GET', `/auth/users/${userId}`);
   }
 }

@@ -1,16 +1,16 @@
-# @energy-community/auth-service-sdk
+# energy-community-auth-sdk
 
 SDK de TypeScript/JavaScript para consumir el servicio de autenticaci�n de Energy Community.
 
 ## Instalacion
 
 ```bash
-npm install @energy-community/auth-service-sdk
+npm install npm i energy-community-auth-sdk
 ```
 ## Uso rapido
 
 ```ts
-import { AuthServiceSdk } from '@energy-community/auth-service-sdk';
+import { AuthServiceSdk } from 'npm i energy-community-auth-sdk';
 
 const sdk = new AuthServiceSdk({
   appId: 'tu-app-id',
@@ -25,12 +25,14 @@ Todas las funciones est�n en `sdk.auth`.
 ### Registrar usuario
 
 ```ts
-const tokens = await sdk.auth.register({
+const registration = await sdk.auth.register({
   firstName: 'Ada',
   lastName: 'Lovelace',
   email: 'ada@example.com',
   password: 'StrongPass123!',
 });
+
+console.log(registration.user.id, registration.user.email);
 ```
 
 ### Login
@@ -76,12 +78,20 @@ const sessions = await sdk.auth.sessions(tokens.accessToken);
 await sdk.auth.revokeSession(tokens.accessToken, 'session-id');
 ```
 
+### Consultar usuario por id
+
+```ts
+const user = await sdk.auth.getUserById('8db5f3bb-4f87-4a31-89fc-351b8eb6360c');
+```
+
 ## Tipos principales
 
 - `RegisterRequest`
 - `LoginRequest`
 - `RefreshRequest`
 - `ValidateTokenRequest`
+- `UserResponse`
+- `RegisterResponse`
 - `TokensResponse`
 - `ValidateTokenResponse`
 - `SessionResponse`
@@ -90,7 +100,7 @@ await sdk.auth.revokeSession(tokens.accessToken, 'session-id');
 Tambi�n puedes importarlos directamente:
 
 ```ts
-import type { TokensResponse, SessionResponse } from '@energy-community/auth-service-sdk';
+import type { TokensResponse, SessionResponse } from 'energy-community-auth-sdk';
 ```
 
 ## Manejo de errores
@@ -98,7 +108,7 @@ import type { TokensResponse, SessionResponse } from '@energy-community/auth-ser
 El SDK lanza `AuthServiceSdkError`.
 
 ```ts
-import { AuthServiceSdkError } from '@energy-community/auth-service-sdk';
+import { AuthServiceSdkError } from 'energy-community-auth-sdk';
 
 try {
   await sdk.auth.login({ email: 'x@y.com', password: 'bad-pass' });
@@ -113,9 +123,7 @@ try {
 
 ## Opciones avanzadas
 
-Adem�s de `appId` y `apiKey`, puedes pasar:
-
-- `fetch`: implementaci�n custom de fetch (�til para tests o runtimes especiales).
+Además de `appId` y `apiKey`, puedes pasar:
 - `defaultHeaders`: headers adicionales en todas las requests.
 
 ```ts
