@@ -1,6 +1,6 @@
 {
   "name": "energy-community-auth-sdk",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Typed JS/TS SDK for energy-community-auth auth_service",
   "type": "module",
   "main": "dist/index.cjs",
