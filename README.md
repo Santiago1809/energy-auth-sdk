@@ -127,12 +127,14 @@ try {
 ## Opciones avanzadas
 
 Además de `appId` y `apiKey`, puedes pasar:
+- `local_test`: si es `true`, usa `http://localhost:3000` como host base.
 - `defaultHeaders`: headers adicionales en todas las requests.
 
 ```ts
 const sdk = new AuthServiceSdk({
   appId: 'tu-app-id',
   apiKey: 'tu-api-key',
+  local_test: true,
   defaultHeaders: {
     'X-Trace-Id': 'trace-123',
   },

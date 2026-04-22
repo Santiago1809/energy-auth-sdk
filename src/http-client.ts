@@ -9,6 +9,7 @@ import {
 
 const AUTH_SERVICE_BASE_URL =
   'https://energy-comunity-auth-production.up.railway.app';
+const AUTH_SERVICE_LOCAL_BASE_URL = 'http://localhost:3000';
 
 function buildUrl(baseUrl: string, path: string, query?: QueryParams): string {
   const url = new URL(path, baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`);
@@ -51,12 +52,16 @@ function extractMessage(payload: unknown, fallback: string): string {
 export class HttpClient {
   private readonly appId: string;
   private readonly apiKey: string;
+  private readonly baseUrl: string;
   private readonly fetchImpl: FetchLike;
   private readonly defaultHeaders: Record<string, string>;
 
   constructor(options: AuthServiceSdkOptions) {
     this.appId = options.appId;
     this.apiKey = options.apiKey;
+    this.baseUrl = options.local_test
+      ? AUTH_SERVICE_LOCAL_BASE_URL
+      : AUTH_SERVICE_BASE_URL;
     this.fetchImpl = options.fetch ?? fetch;
     this.defaultHeaders = options.defaultHeaders ?? {};
   }
@@ -66,7 +71,7 @@ export class HttpClient {
     path: string,
     options: RequestOptions = {},
   ): Promise<TResponse> {
-    const url = buildUrl(AUTH_SERVICE_BASE_URL, path, options.query);
+    const url = buildUrl(this.baseUrl, path, options.query);
 
     const headers: Record<string, string> = {
       ...this.defaultHeaders,

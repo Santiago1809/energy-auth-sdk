@@ -71,6 +71,7 @@ export type FetchLike = (input: RequestInfo | URL, init?: RequestInit) => Promis
 export interface AuthServiceSdkOptions {
   appId: string;
   apiKey: string;
+  local_test?: boolean;
   fetch?: FetchLike;
   defaultHeaders?: Record<string, string>;
 }

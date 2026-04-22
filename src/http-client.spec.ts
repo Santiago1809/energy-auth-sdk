@@ -47,6 +47,25 @@ describe('HttpClient', () => {
     );
   });
 
+  it('uses localhost base url when local_test is true', async () => {
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(JSON.stringify({ ok: true }), {
+        status: 200,
+        headers: { 'content-type': 'application/json' },
+      }),
+    );
+
+    const client = new HttpClient({
+      ...baseOptions,
+      local_test: true,
+      fetch: fetchMock,
+    });
+    await client.request('GET', '/auth/sessions');
+
+    const [url] = fetchMock.mock.calls[0] as [string, RequestInit];
+    expect(url).toBe('http://localhost:3000/auth/sessions');
+  });
+
   it('throws typed error for http failures', async () => {
     const fetchMock = vi.fn().mockResolvedValue(
       new Response(
