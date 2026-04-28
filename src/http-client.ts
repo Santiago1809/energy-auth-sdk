@@ -1,5 +1,14 @@
 import { AuthServiceSdkError } from './errors';
 import {
+  BadRequestError,
+  ConflictError,
+  ForbiddenError,
+  InternalServerError,
+  NotFoundError,
+  TooManyRequestsError,
+  UnauthorizedError,
+} from './errors';
+import {
   AuthServiceSdkOptions,
   FetchLike,
   HttpMethod,
@@ -112,14 +121,8 @@ export class HttpClient {
     const payload = text.length > 0 ? safeJsonParse(text) : undefined;
 
     if (!response.ok) {
-      throw new AuthServiceSdkError(
-        extractMessage(payload, `Request failed with status ${response.status}`),
-        {
-          code: 'HTTP_ERROR',
-          status: response.status,
-          payload,
-        },
-      );
+      const message = extractMessage(payload, `Request failed with status ${response.status}`);
+      throw createErrorForStatus(response.status, message, { payload });
     }
 
     return payload as TResponse;
@@ -131,5 +134,35 @@ function safeJsonParse(value: string): unknown {
     return JSON.parse(value);
   } catch {
     return value;
+  }
+}
+
+function createErrorForStatus(
+  status: number,
+  message: string,
+  options: Omit<ConstructorParameters<typeof AuthServiceSdkError>[1], 'code'>,
+): AuthServiceSdkError {
+  const extra = { ...options, status };
+
+  switch (status) {
+    case 400:
+      return new BadRequestError(message, extra);
+    case 401:
+      return new UnauthorizedError(message, extra);
+    case 403:
+      return new ForbiddenError(message, extra);
+    case 404:
+      return new NotFoundError(message, extra);
+    case 409:
+      return new ConflictError(message, extra);
+    case 429:
+      return new TooManyRequestsError(message, extra);
+    case 500:
+    case 502:
+    case 503:
+    case 504:
+      return new InternalServerError(message, extra);
+    default:
+      return new AuthServiceSdkError(message, { ...options, code: 'HTTP_ERROR', status });
   }
 }

@@ -30,3 +30,60 @@ export class AuthServiceSdkError extends Error {
     }
   }
 }
+
+// Errores específicos por código HTTP
+export class BadRequestError extends AuthServiceSdkError {
+  constructor(message: string, options: Omit<ConstructorParameters<typeof AuthServiceSdkError>[1], 'code'>) {
+    super(message, { ...options, code: 'HTTP_ERROR' });
+    this.name = 'BadRequestError';
+    this.status = 400;
+  }
+}
+
+export class UnauthorizedError extends AuthServiceSdkError {
+  constructor(message: string, options: Omit<ConstructorParameters<typeof AuthServiceSdkError>[1], 'code'>) {
+    super(message, { ...options, code: 'HTTP_ERROR' });
+    this.name = 'UnauthorizedError';
+    this.status = 401;
+  }
+}
+
+export class ForbiddenError extends AuthServiceSdkError {
+  constructor(message: string, options: Omit<ConstructorParameters<typeof AuthServiceSdkError>[1], 'code'>) {
+    super(message, { ...options, code: 'HTTP_ERROR' });
+    this.name = 'ForbiddenError';
+    this.status = 403;
+  }
+}
+
+export class NotFoundError extends AuthServiceSdkError {
+  constructor(message: string, options: Omit<ConstructorParameters<typeof AuthServiceSdkError>[1], 'code'>) {
+    super(message, { ...options, code: 'HTTP_ERROR' });
+    this.name = 'NotFoundError';
+    this.status = 404;
+  }
+}
+
+export class ConflictError extends AuthServiceSdkError {
+  constructor(message: string, options: Omit<ConstructorParameters<typeof AuthServiceSdkError>[1], 'code'>) {
+    super(message, { ...options, code: 'HTTP_ERROR' });
+    this.name = 'ConflictError';
+    this.status = 409;
+  }
+}
+
+export class TooManyRequestsError extends AuthServiceSdkError {
+  constructor(message: string, options: Omit<ConstructorParameters<typeof AuthServiceSdkError>[1], 'code'>) {
+    super(message, { ...options, code: 'HTTP_ERROR' });
+    this.name = 'TooManyRequestsError';
+    this.status = 429;
+  }
+}
+
+export class InternalServerError extends AuthServiceSdkError {
+  constructor(message: string, options: Omit<ConstructorParameters<typeof AuthServiceSdkError>[1], 'code'>) {
+    super(message, { ...options, code: 'HTTP_ERROR' });
+    this.name = 'InternalServerError';
+    this.status = 500;
+  }
+}
