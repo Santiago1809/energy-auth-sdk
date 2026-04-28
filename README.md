@@ -153,47 +153,30 @@ import type { TokensResponse, SessionResponse } from 'energy-community-auth-sdk'
 
 ## Manejo de errores
 
-El SDK lanza `AuthServiceSdkError`.
-
-### Clases de error disponibles
-
-- `AuthServiceSdkError` - Error base
-- `BadRequestError` - Error 400 (petición inválida)
-- `UnauthorizedError` - Error 401 (no autenticado)
-- `ForbiddenError` - Error 403 (no autorizado)
-- `NotFoundError` - Error 404 (no encontrado)
-- `ConflictError` - Error 409 (conflicto, ej: email ya registrado)
-- `TooManyRequestsError` - Error 429 (demasiadas peticiones)
-- `InternalServerError` - Error 500/502/503/504 (error del servidor)
-
-Todas las clases tienen:
-- `code`: 'HTTP_ERROR' | 'NETWORK_ERROR' | 'INVALID_RESPONSE'
-- `status`: código HTTP (si aplica)
-- `payload`: respuesta del backend (si aplica)
+El SDK lanza errores simples con `status` y `message`:
 
 ```ts
-import {
-  AuthServiceSdkError,
-  BadRequestError,
-  UnauthorizedError,
-  ConflictError,
-} from 'energy-community-auth-sdk';
+import { AuthServiceSdkError } from 'energy-community-auth-sdk';
 
 try {
   await sdk.auth.login({ email: 'x@y.com', password: 'bad-pass' });
 } catch (error) {
-  if (error instanceof ConflictError) {
-    console.error('Conflicto:', error.message); // "El email no se encuentra registrado"
-    console.error('Status:', error.status); // 409
-  } else if (error instanceof UnauthorizedError) {
-    console.error('No autorizado:', error.message);
-  } else if (error instanceof AuthServiceSdkError) {
-    console.error(error.code);   // HTTP_ERROR | NETWORK_ERROR | INVALID_RESPONSE
-    console.error(error.status); // status HTTP si aplica
-    console.error(error.payload); // payload de error del backend si aplica
+  if (error instanceof AuthServiceSdkError) {
+    console.error('Status:', error.status);   // ej: 401
+    console.error('Message:', error.message); // ej: "Credenciales inválidas"
   }
 }
 ```
+
+### Errores posibles:
+
+- **status 400**: Datos inválidos (email mal formato, contraseña débil, etc.)
+- **status 401**: No autenticado (credenciales incorrectas)
+- **status 403**: No autorizado (API key inválida)
+- **status 404**: Recurso no encontrado
+- **status 409**: Conflicto (email ya registrado, token ya usado)
+- **status 429**: Demasiadas peticiones (rate limit)
+- **status 0**: Error de red (no se pudo conectar al servidor)
 
 ## Opciones avanzadas
 

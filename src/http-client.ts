@@ -1,14 +1,5 @@
 import { AuthServiceSdkError } from './errors';
 import {
-  BadRequestError,
-  ConflictError,
-  ForbiddenError,
-  InternalServerError,
-  NotFoundError,
-  TooManyRequestsError,
-  UnauthorizedError,
-} from './errors';
-import {
   AuthServiceSdkOptions,
   FetchLike,
   HttpMethod,
@@ -56,6 +47,14 @@ function extractMessage(payload: unknown, fallback: string): string {
   }
 
   return fallback;
+}
+
+function safeJsonParse(value: string): unknown {
+  try {
+    return JSON.parse(value);
+  } catch {
+    return value;
+  }
 }
 
 export class HttpClient {
@@ -111,10 +110,7 @@ export class HttpClient {
     try {
       response = await this.fetchImpl(url, init);
     } catch (error) {
-      throw new AuthServiceSdkError('Network error while calling auth_service', {
-        code: 'NETWORK_ERROR',
-        cause: error,
-      });
+      throw new AuthServiceSdkError(0, 'Network error while calling auth_service');
     }
 
     const text = await response.text();
@@ -122,45 +118,9 @@ export class HttpClient {
 
     if (!response.ok) {
       const message = extractMessage(payload, `Request failed with status ${response.status}`);
-      throw createErrorForStatus(response.status, message, { payload });
+      throw new AuthServiceSdkError(response.status, message);
     }
 
     return payload as TResponse;
-  }
-}
-
-function safeJsonParse(value: string): unknown {
-  try {
-    return JSON.parse(value);
-  } catch {
-    return value;
-  }
-}
-
-function createErrorForStatus(
-  status: number,
-  message: string,
-  options: Omit<ConstructorParameters<typeof AuthServiceSdkError>[1], 'code'>,
-): AuthServiceSdkError {
-  switch (status) {
-    case 400:
-      return new BadRequestError(message, options);
-    case 401:
-      return new UnauthorizedError(message, options);
-    case 403:
-      return new ForbiddenError(message, options);
-    case 404:
-      return new NotFoundError(message, options);
-    case 409:
-      return new ConflictError(message, options);
-    case 429:
-      return new TooManyRequestsError(message, options);
-    case 500:
-    case 502:
-    case 503:
-    case 504:
-      return new InternalServerError(message, options);
-    default:
-      return new AuthServiceSdkError(message, { ...options, code: 'HTTP_ERROR' });
   }
 }
