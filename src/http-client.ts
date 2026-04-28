@@ -142,27 +142,25 @@ function createErrorForStatus(
   message: string,
   options: Omit<ConstructorParameters<typeof AuthServiceSdkError>[1], 'code'>,
 ): AuthServiceSdkError {
-  const extra = { ...options, status };
-
   switch (status) {
     case 400:
-      return new BadRequestError(message, extra);
+      return new BadRequestError(message, options);
     case 401:
-      return new UnauthorizedError(message, extra);
+      return new UnauthorizedError(message, options);
     case 403:
-      return new ForbiddenError(message, extra);
+      return new ForbiddenError(message, options);
     case 404:
-      return new NotFoundError(message, extra);
+      return new NotFoundError(message, options);
     case 409:
-      return new ConflictError(message, extra);
+      return new ConflictError(message, options);
     case 429:
-      return new TooManyRequestsError(message, extra);
+      return new TooManyRequestsError(message, options);
     case 500:
     case 502:
     case 503:
     case 504:
-      return new InternalServerError(message, extra);
+      return new InternalServerError(message, options);
     default:
-      return new AuthServiceSdkError(message, { ...options, code: 'HTTP_ERROR', status });
+      return new AuthServiceSdkError(message, { ...options, code: 'HTTP_ERROR' });
   }
 }
