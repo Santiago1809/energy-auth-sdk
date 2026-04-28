@@ -11,6 +11,10 @@ import {
   UserResponse,
   ValidateTokenRequest,
   ValidateTokenResponse,
+  RequestPasswordRecoveryRequest,
+  ValidateRecoveryTokenRequest,
+  ValidateRecoveryTokenResponse,
+  ResetPasswordRequest,
 } from '../types';
 
 export class AuthClient {
@@ -48,5 +52,27 @@ export class AuthClient {
 
   getUserById(userId: string): Promise<UserResponse> {
     return this.httpClient.request('GET', `/auth/users/${userId}`);
+  }
+
+  requestPasswordRecovery(
+    payload: RequestPasswordRecoveryRequest,
+  ): Promise<SuccessResponse> {
+    return this.httpClient.request('POST', '/auth/password-recovery/request', {
+      body: payload,
+    });
+  }
+
+  validateRecoveryToken(
+    payload: ValidateRecoveryTokenRequest,
+  ): Promise<ValidateRecoveryTokenResponse> {
+    return this.httpClient.request('POST', '/auth/password-recovery/validate-token', {
+      body: payload,
+    });
+  }
+
+  resetPassword(payload: ResetPasswordRequest): Promise<SuccessResponse> {
+    return this.httpClient.request('POST', '/auth/password-recovery/reset', {
+      body: payload,
+    });
   }
 }

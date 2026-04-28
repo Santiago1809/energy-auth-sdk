@@ -42,6 +42,24 @@ export interface SuccessResponse {
   success: true;
 }
 
+export interface RequestPasswordRecoveryRequest {
+  email: string;
+}
+
+export interface ValidateRecoveryTokenRequest {
+  token: string;
+}
+
+export interface ValidateRecoveryTokenResponse {
+  valid: boolean;
+  email?: string;
+}
+
+export interface ResetPasswordRequest {
+  token: string;
+  password: string;
+}
+
 export interface ValidatedUser {
   id: string;
   email: string;

@@ -86,8 +86,53 @@ await sdk.auth.revokeSession(tokens.accessToken, 'session-id');
 const user = await sdk.auth.getUserById('8db5f3bb-4f87-4a31-89fc-351b8eb6360c');
 ```
 
+### Solicitar recuperación de contraseña
+
+Envía un correo con un enlace para restablecer la contraseña.
+
+```ts
+await sdk.auth.requestPasswordRecovery({
+  email: 'usuario@example.com',
+});
+```
+
+**Nota:** Por seguridad, siempre devuelve éxito aunque el email no exista (para evitar enumeración).
+
+### Validar token de recuperación
+
+Verifica si un token de recuperación es válido y no ha sido usado.
+
+```ts
+const validation = await sdk.auth.validateRecoveryToken({
+  token: 'jwt-token-recibido',
+});
+
+if (validation.valid) {
+  console.log('Token válido para:', validation.email);
+} else {
+  console.log('Token inválido o ya usado');
+}
+```
+
+### Restablecer contraseña
+
+Actualiza la contraseña usando un token válido.
+
+```ts
+await sdk.auth.resetPassword({
+  token: 'jwt-token-recibido',
+  password: 'NuevaContraseña123!',
+});
+```
+
+**Nota:** Al restablecer la contraseña, todas las sesiones activas se revocan automáticamente por seguridad.
+
 ## Tipos principales
 
+- `RequestPasswordRecoveryRequest`
+- `ValidateRecoveryTokenRequest`
+- `ValidateRecoveryTokenResponse`
+- `ResetPasswordRequest`
 - `RegisterRequest`
 - `LoginRequest`
 - `RefreshRequest`
