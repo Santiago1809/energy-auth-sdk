@@ -8,7 +8,7 @@ import {
 } from './types';
 
 const AUTH_SERVICE_BASE_URL =
-  'https://energy-comunity-auth-production.up.railway.app';
+  'https://energy-comunity-auth.onrender.com';
 const AUTH_SERVICE_LOCAL_BASE_URL = 'http://localhost:3000';
 
 function buildUrl(baseUrl: string, path: string, query?: QueryParams): string {
